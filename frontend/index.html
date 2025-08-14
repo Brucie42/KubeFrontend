@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kubernetes Web Demo</title>
+</head>
+<body>
+    <h1>FastAPI + Kubernetes Demo</h1>
+    <button onclick="getInfo()">Get Cluster Info</button>
+    <p id="result"></p>
+
+    <h3>Reverse Text</h3>
+    <input type="text" id="textInput" placeholder="Type something">
+    <button onclick="reverseText()">Reverse</button>
+    <p id="reverseResult"></p>
+
+    <script>
+        const backendUrl = "http://backend-service/api";
+
+        function getInfo() {
+            fetch(backendUrl)
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("result").innerText =
+                        `Message: ${data.message} | Pod: ${data.pod}`;
+                });
+        }
+
+        function reverseText() {
+            let text = document.getElementById("textInput").value;
+            fetch(`${backendUrl}/reverse/${text}`)
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("reverseResult").innerText =
+                        `Reversed: ${data.reversed}`;
+                });
+        }
+    </script>
+</body>
+</html>
